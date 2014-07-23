@@ -1,5 +1,5 @@
-from command import run_command_with_docker, run_command
-from time import parse_time
+from learning.command import run_command_with_docker, run_command
+from learning.time import parse_time
 
 __author__ = 'Sherlock'
 
