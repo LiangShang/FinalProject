@@ -10,7 +10,7 @@ def run_command(com):
 
 
 def run_command_with_docker(com, container, cpu, memory):
-    command_to_exe = "docker run -i -t --rm -m "+str(memory)+"k --cpuset="+str(cpu)+" "+container+" "+com
+    command_to_exe = "sudo docker run -i -t --rm -m "+str(memory)+"k --cpuset="+str(cpu)+" "+container+" "+com
     print command_to_exe
     return run_command(command_to_exe)
 
