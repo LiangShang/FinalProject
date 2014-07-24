@@ -1,5 +1,6 @@
 __author__ = 'Sherlock'
 
+
 class PerformanceTable:
 
     table = {}
@@ -24,20 +25,20 @@ class PerformanceTable:
 
     def generate(self, file_name):
         """This function is to print self.table to a file with file_name"""
-        self.memory_range.sort()
+        self.memory_range.sort(cmp=lambda x, y: len(x)<len(y) | cmp(x, y))
         self.cpu_range.sort()
 
         f = open(file_name, 'w')
         f.write("     ")
         for cpu in self.cpu_range:
-            f.write("{:10d}".format(cpu))
+            f.write("{:10d}".format(int(cpu)))
         f.write("\n")
         for memory in self.memory_range:
-            f.write("{:5d}".format(memory))
+            f.write("{:5s}".format(memory))
             for cpu in self.cpu_range:
                 time = self.table.get((cpu, memory), None)
                 if time is not None:
-                    f.write("{:10.2f}".format(time))
+                    f.write("{:10.3f}".format(time))
                 else:
                     f.write("{0}".format("      None"))
             f.write("\n")

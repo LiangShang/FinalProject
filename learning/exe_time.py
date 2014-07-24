@@ -1,15 +1,7 @@
 import time
 import sys
-from exe_command import run_command
 
 __author__ = 'Sherlock'
-
-
-def calculate_time(com_to_exe):
-    s_time = time.clock()
-    run_command(com_to_exe)
-    e_time = time.clock()
-    return e_time - s_time
 
 
 def parse_time(time_string):
@@ -39,7 +31,7 @@ def parse_time(time_string):
 def parse_m_s(m_s_str):
 
     minute, second = m_s_str.split("m")
-    second = second[0:-1]
+    second = second[0:-2]
     #print minute, second
 
     return float(second) + float(minute)*60
@@ -48,4 +40,3 @@ def parse_m_s(m_s_str):
 if __name__ == "__main__":
     com_to_exe = sys.argv[1]
     print com_to_exe
-    print calculate_time(com_to_exe)
