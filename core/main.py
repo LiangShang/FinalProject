@@ -1,4 +1,4 @@
-import time
+import exe_time
 from core.paramiko_script import execute_remote_command
 from core.vm_manager import create_instance
 

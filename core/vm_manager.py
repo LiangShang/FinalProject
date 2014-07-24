@@ -4,7 +4,7 @@ import keystoneclient.v2_0.client as ksclient
 import novaclient.v1_1.client as nvclient
 import glanceclient
 import os
-import time
+import exe_time
 
 
 def get_keystone_creds():
@@ -38,7 +38,7 @@ def create_instance(vm_name, image_name, flavor_name):
     flavor = nova.flavors.find(name=flavor_name)
     instance = nova.servers.create(name=vm_name, image=image, flavor=flavor)
     while instance.status == 'BUILD':
-        time.sleep(5)
+        exe_time.sleep(5)
         instance = nvclient.servers.get(instance.id)
         if instance.status == 'ACTIVE':
             return instance

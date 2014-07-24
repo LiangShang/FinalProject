@@ -1,12 +1,23 @@
+import time
+import sys
+from exe_command import run_command
+
 __author__ = 'Sherlock'
+
+
+def calculate_time(com_to_exe):
+    s_time = time.clock()
+    run_command(com_to_exe)
+    e_time = time.clock()
+    return e_time - s_time
 
 
 def parse_time(time_string):
     """Given the time_string like the
     '__init__.py\n
-     command.py\n
+     exe_command.py\n
      main.py\n
-     time.py\n
+     exe_time.py\n
      \n
      real\t0m0.002s\n
      user\t0m0.001s\n
@@ -35,4 +46,6 @@ def parse_m_s(m_s_str):
 
 
 if __name__ == "__main__":
-    parse_time("__init__.py\ncommand.py\nmain.py\ntime.py\n\nreal\t0m0.002s\nuser\t0m0.001s\nsys\t0m0.001s")
+    com_to_exe = sys.argv[1]
+    print com_to_exe
+    print calculate_time(com_to_exe)

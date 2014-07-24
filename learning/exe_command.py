@@ -1,4 +1,3 @@
-from learning.time import parse_time
 
 __author__ = 'Sherlock'
 import commands
