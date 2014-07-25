@@ -7,7 +7,6 @@ cpus=(1 2 3 4)
 command=$@
 image="stackbrew/hipache"
 
-echo time $command >script
 for i in {1..10};
 do
 
@@ -15,6 +14,8 @@ do
     do
       for cpu in "${cpus[@]}";
       do
+        # put CPU number to script
+        echo time $command $cpu >script
         #echo $memory, $cpu
 
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
