@@ -14,7 +14,12 @@ if __name__ == "__main__":
         memory = profile[1]
         sys_time_str = profile[3]
         user_time_str = profile[5]
-        total_time = parse_m_s(sys_time_str) + parse_m_s(user_time_str)
-        performance_table.add(total_time, cpu, memory)
+        time = parse_m_s(sys_time_str) + parse_m_s(user_time_str)
+        previous_time = performance_table.get(cpu, memory)
+        if previous_time:
+            performance_table.add(previous_time+time, cpu, memory)
+        else:
+            performance_table.add(time, cpu, memory)
 
+    performance_table.pareto()
     performance_table.generate("result")

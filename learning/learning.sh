@@ -8,30 +8,34 @@ command=$1
 image="stackbrew/hipache"
 
 echo time $command >script
-
-for memory in "${memories[@]}";
+for i in {1..10};
 do
-  for cpu in "${cpus[@]}";
-  do
-    #echo $memory, $cpu
-    (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
-    #(time ls) 1>/dev/null 2> tmp
-    echo calculate memory: $memory cpu: $cpu
-    sys_time_str=`cat tmp|tail -1`
-    user_time_str=`cat tmp|tail -n 2| head -n 1`
 
-    echo $cpu $memory $sys_time_str $user_time_str >> statistics
+    for memory in "${memories[@]}";
+    do
+      for cpu in "${cpus[@]}";
+      do
+        #echo $memory, $cpu
 
-  done;
+        (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
+        #(time ls) 1>/dev/null 2> tmp
+        echo calculate memory: $memory cpu: $cpu
+        sys_time_str=`cat tmp|tail -1`
+        user_time_str=`cat tmp|tail -n 2| head -n 1`
 
+        echo $cpu $memory $sys_time_str $user_time_str >> statistics
+
+      done;
+
+    done;
 done;
 
 #TODO run python script to parse the statistics file and generate the table
 python parse.py
 
-#rm -f tmp
-#rm -f script
-#rm -f statistics
+rm -f tmp
+rm -f script
+rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
     #sys_time_str=`echo $sys_time_str | cut -d ' ' -f 2`

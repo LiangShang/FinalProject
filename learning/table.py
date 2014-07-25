@@ -4,8 +4,12 @@ __author__ = 'Sherlock'
 class PerformanceTable:
 
     table = {}
+    times = {}
     cpu_range = []
     memory_range = []
+
+    def get(self, cpu, memory):
+        return self.table.get((cpu, memory), None)
 
     def add(self, time, cpu, memory):
         if cpu not in self.cpu_range:
@@ -16,11 +20,22 @@ class PerformanceTable:
 
         key = (cpu, memory)
         self.table[key] = time
+        app_time = self.times.get(key, None)
+        if app_time:
+            self.times[key] = int(app_time) + 1
+        else:
+            self.times[key] = 1
+
+    def average(self):
+        for key in self.table.keys():
+            app_time = self.times[key]
+            self.table[key] = self.table[key]/app_time
 
     def pareto(self):
         """TODO: remove the records from self.table which costs the same time but more resources
                  If the cpu/memory no longer exists, delete that in cpu_range/memory_range too
         """
+        self.average()
         pass
 
     def generate(self, file_name):
