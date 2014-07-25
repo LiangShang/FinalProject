@@ -16,7 +16,6 @@ do
       do
         # put CPU number to script
         echo time $command $cpu >script
-        echo time $command $cpu
         #echo $memory, $cpu
 
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
@@ -34,10 +33,11 @@ do
 done;
 
 # run python script to parse the statistics file and generate the table
+echo $command
 python parse.py $command
 
-#rm -f tmp
-#rm -f script
+rm -f tmp
+rm -f script
 rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
