@@ -1,1 +1,5 @@
 *.pyc
+learning/performance*
+learning/tmp
+learning/script
+learning/statistics
