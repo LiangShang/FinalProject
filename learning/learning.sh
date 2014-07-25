@@ -3,7 +3,7 @@
 declare -a memories
 declare -a cpus
 memories=(512k 1024k 2048k 4096k)
-cpus=(1 2 3)
+cpus=(3 2 1 0)
 command=$1
 image="stackbrew/hipache"
 
@@ -14,8 +14,9 @@ do
   for cpu in "${cpus[@]}";
   do
     #echo $memory, $cpu
-    #(docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu $image bash /Final/script) 1>/dev/null 2> result
-    (time ls) 1>/dev/null 2> tmp
+    (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
+    #(time ls) 1>/dev/null 2> tmp
+    echo calculate memory: $memory cpu: $cpu
     sys_time_str=`cat tmp|tail -1`
     user_time_str=`cat tmp|tail -n 2| head -n 1`
 
@@ -28,9 +29,9 @@ done;
 #TODO run python script to parse the statistics file and generate the table
 python parse.py
 
-rm -f tmp
-rm -f script
-rm -f statistics
+#rm -f tmp
+#rm -f script
+#rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
     #sys_time_str=`echo $sys_time_str | cut -d ' ' -f 2`

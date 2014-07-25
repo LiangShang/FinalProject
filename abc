@@ -1,0 +1,1 @@
+(sudo docker run -i -v /home/vagrant/code/FinalProject:/Final --rm -m 512k --cpuset=1 stackbrew/hipache bash /Final/script )
