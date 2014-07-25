@@ -34,5 +34,3 @@ if __name__ == "__main__":
     # Ensure all of the processes have finished
     for j in jobs:
         j.join()
-
-    print "List processing complete."
