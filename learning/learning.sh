@@ -7,7 +7,7 @@ cpus=(1 2 3 4)
 command=$@
 image="stackbrew/hipache"
 
-for i in {1..10};
+for i in {1..5};
 do
 
     for memory in "${memories[@]}";
@@ -16,10 +16,11 @@ do
       do
         # put CPU number to script
         echo time $command $cpu >script
+        echo time $command $cpu
         #echo $memory, $cpu
 
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
-        #(time $command)  2> tmp
+        #(bash script)  2> tmp
         echo calculate memory: $memory cpu: $cpu
         #sys_time_str=`cat tmp|tail -1`
         #user_time_str=`cat tmp|tail -n 2| head -n 1`
@@ -32,11 +33,11 @@ do
     done;
 done;
 
-#TODO run python script to parse the statistics file and generate the table
+# run python script to parse the statistics file and generate the table
 python parse.py $command
 
-rm -f tmp
-rm -f script
+#rm -f tmp
+#rm -f script
 rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
