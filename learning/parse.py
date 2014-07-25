@@ -1,3 +1,4 @@
+import sys
 from exe_time import parse_m_s
 
 __author__ = 'Sherlock'
@@ -22,4 +23,9 @@ if __name__ == "__main__":
             performance_table.add(time, cpu, memory)
 
     performance_table.pareto()
-    performance_table.generate("result")
+    command_names = sys.argv
+    command_names[1] = command_names[1].replace('./', '')
+    command_name = ""
+    for i in range(1, len(command_names)):
+        command_name += command_names[i]+" "
+    performance_table.generate("performance of "+command_name)

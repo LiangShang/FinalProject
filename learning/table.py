@@ -36,7 +36,19 @@ class PerformanceTable:
                  If the cpu/memory no longer exists, delete that in cpu_range/memory_range too
         """
         self.average()
-        pass
+        for memory in self.memory_range:
+            min_time = -1
+            for cpu in self.cpu_range:
+                time = self.table.get((cpu, memory), None)
+                if time:
+                    if min_time < 0:
+                        min_time = time
+                    elif time >= min_time :
+                        self.table[(cpu, memory)] = None
+                    else:
+                        min_time = time
+
+
 
     def generate(self, file_name):
         """This function is to print self.table to a file with file_name"""
@@ -53,7 +65,7 @@ class PerformanceTable:
             for cpu in self.cpu_range:
                 time = self.table.get((cpu, memory), None)
                 if time is not None:
-                    f.write("{:10.3f}".format(time))
+                    f.write("{:10.5f}".format(time))
                 else:
                     f.write("{0}".format("      None"))
             f.write("\n")
