@@ -16,10 +16,10 @@ do
       do
         # put CPU number to script
         echo time $command $cpu >script
-        #echo $memory, $cpu
+        echo $memory, $cpu
 
-        #(sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
-        (bash script)  2> tmp
+        (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
+        #(bash script)  2> tmp
         echo calculate memory: $memory cpu: $cpu
         #sys_time_str=`cat tmp|tail -1`
         #user_time_str=`cat tmp|tail -n 2| head -n 1`
