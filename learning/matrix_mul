@@ -21,6 +21,7 @@ if __name__ == '__main__':
     assert(adotb == listprod)
     print listprod, "iter test OK" '''
     size_of_matrix = int(sys.argv[1])
+    number_of_cpu = int(sys.argv[-1])
     from matrix import multimatrix, random_m, iterate_results
     a = random_m(size_of_matrix, size_of_matrix)
-    p = multimatrix(a) * multimatrix(a)
+    p = multimatrix(a, number_of_cpu) * multimatrix(a, number_of_cpu)

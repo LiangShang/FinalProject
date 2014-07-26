@@ -17,10 +17,16 @@ def eval_func_tuple(f_args):
 
 class multimatrix(list):
 
+
+
+    def __init__(self, iterable=None, cpu=1):
+        super(multimatrix, self).__init__(iterable)
+        self.cpu = cpu
+
     def __mul__(self, b, izip=izip, repeat=repeat):
         '''Concurrent matrix multiplication with multiprocessing.Pool. '''
-        pool = multiprocessing.Pool(multiprocessing.cpu_count())
-        return pool.map(eval_func_tuple, izip(repeat(calc_row_of_product_matrix), self, repeat(b))) 
+        pool = multiprocessing.Pool(self.cpu)
+        return pool.map(eval_func_tuple, izip(repeat(calc_row_of_product_matrix), self, repeat(b)))
 
 class itermatrix(list):
 
