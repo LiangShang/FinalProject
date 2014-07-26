@@ -55,6 +55,7 @@ class PerformanceTable:
         self.memory_range.sort(cmp=lambda x, y: len(x)<len(y) | cmp(x, y))
         self.cpu_range.sort()
 
+        file_name = file_name.strip()
         f = open(file_name, 'w')
         f.write("     ")
         for cpu in self.cpu_range:
