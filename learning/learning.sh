@@ -2,7 +2,7 @@
 
 declare -a memories
 declare -a cpus
-memories=(512k 1024k 2048k 4096k)
+memories=(51200k 102400k 204800k 409600k)
 cpus=(1 2 3)
 command=$@
 image="stackbrew/hipache"
