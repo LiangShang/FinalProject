@@ -2,7 +2,7 @@
 
 declare -a memories
 declare -a cpus
-memories=(51200k 102400k 204800k 409600k)
+memories=(102400k 204800k 309600k 409600k)
 cpus=(1 2 3)
 command=$@
 image="stackbrew/hipache"
@@ -16,7 +16,7 @@ do
       do
         # put CPU number to script
         echo time $command $cpu >script
-        echo $memory, $cpu
+        #echo $memory, $cpu
 
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=$cpu -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp
