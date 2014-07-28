@@ -2,8 +2,8 @@
 
 declare -a memories
 declare -a cpus
-memories=(50m 100m 200m 400m)
-#memories=(200 250 300 350)  #for host statistics, memory stands for matrix size
+#memories=(50m 100m 200m 400m)
+memories=(200 250 300 350)  #for host statistics, memory stands for matrix size
 cpus=(1 2 3 4 )
 command=$@
 image="stackbrew/hipache"
@@ -20,10 +20,10 @@ do
         #if [ $process -lt 1 ];then 
          #    process=1 
         #fi
-        echo time $command $process >script
-        #echo time $command $memory $process >script #for host running
-        (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
-        #(bash script)  2> tmp #for host running
+        #echo time $command $process >script
+        echo time $command $memory $process >script #for host running
+        #(sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
+        (bash script)  2> tmp #for host running
         echo calculate memory: $memory cpu: $cpu
         #sys_time_str=`cat tmp|tail -1`
         #user_time_str=`cat tmp|tail -n 2| head -n 1`

@@ -35,6 +35,7 @@ class PerformanceTable:
         """TODO: remove the records from self.table which costs the same time but more resources
                  If the cpu/memory no longer exists, delete that in cpu_range/memory_range too
         """
+        self.average()
         for memory in self.memory_range:
             min_time = -1
             for cpu in self.cpu_range:

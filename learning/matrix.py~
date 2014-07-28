@@ -21,7 +21,7 @@ class multimatrix(list):
 
     def __init__(self, iterable=None, cpu=1):
         super(multimatrix, self).__init__(iterable)
-        self.cpu = cpu #multiprocessing.cpu_count()
+        self.cpu = multiprocessing.cpu_count()
 
     def __mul__(self, b, izip=izip, repeat=repeat):
         '''Concurrent matrix multiplication with multiprocessing.Pool. '''
