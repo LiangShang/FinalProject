@@ -2,9 +2,9 @@
 
 declare -a memories
 declare -a cpus
-memories=(50m 100m 200m 400m)
+memories=(10m 20m 30m 40m)
 #memories=(200 250 300 350)  #for host statistics, memory stands for matrix size
-cpus=(1 2 3 4 )
+cpus=(1 2 3 4)
 command=$1
 matrix_size=$2
 image="stackbrew/hipache"
@@ -12,7 +12,7 @@ echo "Creating random matrix for test"
 python matrix.py $matrix_size
 echo "Matrix generated"
 
-for i in {1..5};
+for i in {1};
 do
 
     for memory in "${memories[@]}";
@@ -24,14 +24,14 @@ do
         #if [ $process -lt 1 ];then 
          #    process=1 
         #fi
-        echo time timeout 2s $command matrix_$matrix_size matrix_$matrix_size $process >script
+        echo calculate memory: $memory cpu: $cpu
+        echo time timeout 1m $command matrix_$matrix_size matrix_$matrix_size $process >script
         #echo time $command $memory $process >script #for host running
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp #for host running
-        echo calculate memory: $memory cpu: $cpu
         #sys_time_str=`cat tmp|tail -1`
         #user_time_str=`cat tmp|tail -n 2| head -n 1`
-        real_time_str=`cat tmp|tail -n 3| head -n 1`
+        real_time_str=`cat tmp| head -n 2| tail -n 1`
 
         echo $cpu $memory $real_time_str >> statistics
 
@@ -42,11 +42,11 @@ done;
 
 # run python script to parse the statistics file and generate the table
 echo $command
-python parse.py $command
+python parse.py $command$matrix_size
 
 rm -f tmp
 rm -f script
-rm -f statistics
+#rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
     #sys_time_str=`echo $sys_time_str | cut -d ' ' -f 2`

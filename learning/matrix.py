@@ -71,7 +71,7 @@ def read_matrix(file_name):
     return matrix
 
 if __name__ == "__main__":
-    matrix = random_m(int(sys.argv[1]), 100)
+    matrix = random_m(int(sys.argv[1]), int(sys.argv[1]))
     print_matrix(matrix, "matrix_"+sys.argv[1])
 
     #matrix = read_matrix("matrix_100")

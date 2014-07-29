@@ -21,7 +21,7 @@ if __name__ == "__main__":
         else:
             performance_table.add(time, cpu, memory)
     performance_table.average()
-    performance_table.pareto()
+    #performance_table.pareto()
     command_names = sys.argv
     command_names[1] = command_names[1].replace('./', '')
     command_name = ""

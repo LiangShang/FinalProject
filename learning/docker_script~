@@ -1,1 +1,1 @@
-sudo docker run -i -t -v `pwd`:/Final --rm -m 100m --cpuset=0-3 -w /Final  stackbrew/hipache bash 
+sudo docker run -i -t -v `pwd`:/Final --rm -m 20m --cpuset=0-3 -w /Final  stackbrew/hipache bash 
