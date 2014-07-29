@@ -6,9 +6,15 @@ import timeit
 
 
 if __name__ == '__main__':
-    
-    size_of_matrix = int(sys.argv[1])
+
+    """parameter is like:
+    file name of matrix A
+    file name of matrix B
+    number of processes used
+    """
+
     number_of_cpu = int(sys.argv[-1])
-    from matrix import multimatrix, random_m, iterate_results
-    a = random_m(size_of_matrix, size_of_matrix)
-    p = multimatrix(a, number_of_cpu) * multimatrix(a, number_of_cpu)
+    from matrix import multimatrix, read_matrix
+    a = read_matrix(sys.argv[1])
+    b = read_matrix(sys.argv[2])
+    p = multimatrix(a, number_of_cpu) * multimatrix(b, number_of_cpu)

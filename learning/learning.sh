@@ -5,7 +5,8 @@ declare -a cpus
 memories=(50m 100m 200m 400m)
 #memories=(200 250 300 350)  #for host statistics, memory stands for matrix size
 cpus=(1 2 3 4 )
-command=$@
+command=$1
+matrix_size=$2
 image="stackbrew/hipache"
 
 for i in {1..5};
@@ -20,7 +21,7 @@ do
         #if [ $process -lt 1 ];then 
          #    process=1 
         #fi
-        echo time $command $process >script
+        echo time timeout 20s $command matrix_$matrix_size matrix_$matrix_size $process >script
         #echo time $command $memory $process >script #for host running
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp #for host running

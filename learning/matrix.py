@@ -2,6 +2,8 @@ import random
 import multiprocessing
 from itertools import starmap, izip, repeat, imap
 from operator import mul
+import sys
+
 
 def calc_row_of_product_matrix(a_row, b, izip=izip):
     '''Calculate a row of the product matrix P = A * B
@@ -55,3 +57,22 @@ def random_v(K=1000,min=-1000,max=1000):
 def random_m(N=1000, K=1000):
     '''Generates random matrix. Returns list of list of integers.'''
     return [random_v(K) for n in range(N)]
+
+def print_matrix(matrix, file_name):
+    f = open(file_name, "w")
+    for line in matrix:
+        f.write("\t".join(map(str, line)) + "\n")
+
+def read_matrix(file_name):
+    lines = open(file_name, "r").read().splitlines()
+    matrix = []
+    for line in lines:
+        matrix.append(map(int, line.split("\t")))
+    return matrix
+
+if __name__ == "__main__":
+    matrix = random_m(int(sys.argv[1]), 100)
+    print_matrix(matrix, "matrix_"+sys.argv[1])
+
+    #matrix = read_matrix("matrix_100")
+    #print matrix
