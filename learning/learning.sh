@@ -8,6 +8,9 @@ cpus=(1 2 3 4 )
 command=$1
 matrix_size=$2
 image="stackbrew/hipache"
+echo "Creating random matrix for test"
+python matrix.py $matrix_size
+echo "Matrix generated"
 
 for i in {1..5};
 do
@@ -21,7 +24,7 @@ do
         #if [ $process -lt 1 ];then 
          #    process=1 
         #fi
-        echo time timeout 20s $command matrix_$matrix_size matrix_$matrix_size $process >script
+        echo time timeout 2s $command matrix_$matrix_size matrix_$matrix_size $process >script
         #echo time $command $memory $process >script #for host running
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp #for host running
