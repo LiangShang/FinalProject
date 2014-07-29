@@ -1,0 +1,47 @@
+#!/usr/bin/python
+
+import multiprocessing, numpy, ctypes
+import sys
+from matrix import read_matrix, print_matrix
+
+
+def lineMult(start):
+    global A, B, mp_arr, part
+    n = len(A)
+    # create a new numpy array using the same memory as mp_arr
+    arr = numpy.frombuffer(mp_arr.get_obj(), dtype=ctypes.c_int)
+    C = arr.reshape((n,n))
+    for i in xrange(start, start+part):
+        for k in xrange(n):
+            for j in xrange(n):
+                C[i][j] += A[i][k] * B[k][j]
+
+def ikjMatrixProduct(A, B, threadNumber):
+    n = len(A)
+    pool = multiprocessing.Pool(threadNumber)
+
+    pool.map(lineMult, range(0,n, part))
+    # mp_arr and arr share the same memory
+    arr = numpy.frombuffer(mp_arr.get_obj(), dtype=ctypes.c_int) 
+    C = arr.reshape((n,n))
+    return C
+
+if __name__ == "__main__":
+    """
+    parameter is like
+    file of matrix A
+    file of matrix B
+    number of processes
+    """
+
+    A, B = read_matrix(sys.argv[1]), read_matrix(sys.argv[2])
+    n, m, p = len(A), len(A[0]), len(B[0])
+
+    threadNumber = int(sys.argv[-1])
+    part = len(A) / threadNumber
+    if part < 1:
+        part = 1
+
+    # shared, can be used from multiple processes
+    mp_arr = multiprocessing.Array(ctypes.c_int, n*n)
+    C = ikjMatrixProduct(A, B, threadNumber)
