@@ -25,7 +25,7 @@ do
          #    process=1 
         #fi
         echo calculate memory: $memory cpu: $cpu
-        echo time timeout 20s $command matrix_$matrix_size matrix_$matrix_size $process >script
+        echo time timeout 1m $command matrix_$matrix_size matrix_$matrix_size $process >script
         #echo time $command $memory $process >script #for host running
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp #for host running

@@ -45,7 +45,7 @@ echo $command
 python parse.py $command$matrix_size
 
 rm -f tmp
-rm -f script
+#rm -f script
 #rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
