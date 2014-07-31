@@ -1,7 +1,9 @@
+#!/usr/bin/python
 import argparse
 import os
 from performance_table import PerformanceTable
 from cost_table import CostTable
+from time_cost_mapping import TimeCostMapping
 
 parser = argparse.ArgumentParser()
 
@@ -23,34 +25,24 @@ cost_table = CostTable("cost_table")
 configs = [(cpu, memory)
            for cpu in cost_table.cpu_range
            for memory in cost_table.memory_range]
-configs_sorted = False
 
-if args.max_money:
-    max_money = float(args.max_money)
-    configs = cost_table.get_configs(max_money)
-    configs_sorted = True
-    if not configs:
-        print "Cannot run such application with the money: " + args.max_money
-        exit()
+file_name = args.application
+if file_name[0:2] == "./":
+    file_name = "../learning/performance of " + file_name[2:]
+if not os.path.isfile(file_name):
+    print "please use learning.sh in directory learning first"
+    exit()
 
-# Find the configuration according to the time
-if args.max_time:
 
-    max_time = float(args.max_time)
+performance_table = PerformanceTable(file_name)
 
-    file_name = args.application
-    if file_name[0:2] == "./":
-        file_name = "../learning/performance of " + file_name[2:]
-    if not os.path.isfile(file_name):
-        print "please use learning.sh in directory learning first"
-        exit()
+mapping = TimeCostMapping(cost_table=cost_table,
+                          performance_table=performance_table)
 
-    performance_table = PerformanceTable(file_name)
-    configs = performance_table.get_configs(configs, max_time, configs_sorted)
+config = mapping.get_config(float(args.max_money), float(args.max_time))
 
-    if not configs:
-        print "Cannot run such application with the money" \
-              + args.max_money + " and the time: " + args.max_time
-        exit()
+print config
 
-    print "find config: " + str(configs)
+mapping.draw()
+
+

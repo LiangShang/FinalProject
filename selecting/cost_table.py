@@ -81,12 +81,3 @@ class CostTable:
         self.sort()
         configs = []
 
-        for memory in self.memory_range:
-            for cpu in self.cpu_range:
-                money = self.table.get((cpu, memory), None)
-                if money and money <= max_money:
-                    configs.append((cpu, memory, max_money - money))
-
-        # let the config whose money is most close to max_money the front
-        configs.sort(cmp=lambda x, y: cmp(x[2], y[2]))
-        return [(r[0], r[1]) for r in configs]
