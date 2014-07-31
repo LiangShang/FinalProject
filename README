@@ -1,0 +1,19 @@
+This is a tool to evaluate the performance of an application running inside a LXC container, 
+and then compute the configuration to launch the container according to the given money and execution time.
+So there are 2 phases in the tool, the learning and the selecting.
+
+
+Learning Phase
+=============
+learning phase is to let the tool to learn the performance of a given application in different containers.
+1) go into the learning folder
+2) type './learning.sh matrix_mul 1000' for example to let the tool learn the performance of matrix multiplication with matrices of size 1000
+
+
+
+Selecting Phase
+===============
+selecting phase is to pick out the configuration, tuple of cpu numbers and memory, so that the application would run in the minimum cost of money
+1) go to the selecting folder
+2) type "python selecting.py 'matrix 1000'" to pick out the config to run the application matrix multiplier with matrices of size 1000
+
