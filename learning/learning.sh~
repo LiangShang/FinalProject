@@ -2,7 +2,7 @@
 
 declare -a memories
 declare -a cpus
-memories=(10m 20m 30m 40m)
+memories=(10m 20m 30m 40m 75m 150m)
 #memories=(200 250 300 350)  #for host statistics, memory stands for matrix size
 cpus=(1 2 3 4)
 command=$1
@@ -26,7 +26,7 @@ do
         #fi
         echo calculate memory: $memory cpu: $cpu
         echo time timeout 1m $command matrix_$matrix_size matrix_$matrix_size $process >script
-        #echo time $command $memory $process >script #for host running
+        #echo time $command matrix_$matrix_size matrix_$matrix_size $process >script #for host running
         (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
         #(bash script)  2> tmp #for host running
         #sys_time_str=`cat tmp|tail -1`
@@ -42,11 +42,11 @@ done;
 
 # run python script to parse the statistics file and generate the table
 echo $command
-python parse.py $command$matrix_size
+python parse.py "$command $matrix_size"
 
 rm -f tmp
 rm -f script
-#rm -f statistics
+rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
     #sys_time_str=`echo $sys_time_str | cut -d ' ' -f 2`

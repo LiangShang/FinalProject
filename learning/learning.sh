@@ -25,10 +25,10 @@ do
          #    process=1 
         #fi
         echo calculate memory: $memory cpu: $cpu
-        #echo time timeout 1m $command matrix_$matrix_size matrix_$matrix_size $process >script
-        echo time $command matrix_$matrix_size matrix_$matrix_size $process >script #for host running
-        #(sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
-        (bash script)  2> tmp #for host running
+        echo time timeout 1m $command matrix_$matrix_size matrix_$matrix_size $process >script
+        #echo time $command matrix_$matrix_size matrix_$matrix_size $process >script #for host running
+        (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
+        #(bash script)  2> tmp #for host running
         #sys_time_str=`cat tmp|tail -1`
         #user_time_str=`cat tmp|tail -n 2| head -n 1`
         real_time_str=`cat tmp| head -n 2| tail -n 1`
@@ -46,7 +46,7 @@ python parse.py "$command $matrix_size"
 
 rm -f tmp
 rm -f script
-rm -f statistics
+#rm -f statistics
 
     #parse xxmxxxxs to time(seconds)
     #sys_time_str=`echo $sys_time_str | cut -d ' ' -f 2`

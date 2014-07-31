@@ -28,8 +28,7 @@ configs = [(cpu, memory)
 
 file_name = args.application
 if file_name[0:2] == "./":
-    file_name = file_name[2:]
-file_name = "../learning/performance of " + file_name
+    file_name = "../learning/performance of " + file_name[2:]
 if not os.path.isfile(file_name):
     print "please use learning.sh in directory learning first"
     exit()
