@@ -32,8 +32,13 @@ if file_name[0:2] == "./":
 file_name = "../learning/performance of " + file_name
 if not os.path.isfile(file_name):
     print "please use learning.sh in directory learning first"
-    exit()
+    print "now try to run the learning module"
+    print "running the command", "cd ../learning; bash learning.sh " + args.application
 
+    #import commands
+    #commands.getstatusoutput("cd ../learning; bash learning.sh " + args.application)
+    import os
+    os.system("cd ../learning; bash learning.sh " + args.application)
 
 performance_table = PerformanceTable(file_name)
 
