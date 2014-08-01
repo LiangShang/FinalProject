@@ -13,11 +13,14 @@ parser.add_argument('-t', '--time', action='store', dest='max_time',
 parser.add_argument('-m', '--money', action='store', dest="max_money",
                     help='The maximum money expected to run the application')
 
+parser.add_argument('--size', action='store', dest="size", required=True,
+                    help='The size of the application')
+
 parser.add_argument('application', help='the application name')
 
 args = parser.parse_args()
 
-print args.application
+print args.application + args.size
 
 
 # Find the configuration according to the money
@@ -29,25 +32,30 @@ configs = [(cpu, memory)
 file_name = args.application
 if file_name[0:2] == "./":
     file_name = file_name[2:]
-file_name = "../learning/performance of " + file_name
+file_name = "../learning/performance of " + file_name + " " + args.size
 if not os.path.isfile(file_name):
     print "please use learning.sh in directory learning first"
     print "now try to run the learning module"
-    print "running the command", "cd ../learning; bash learning.sh " + args.application
+    print "running the command", "cd ../learning; bash learning.sh " + args.application + " " + args.size
 
     #import commands
     #commands.getstatusoutput("cd ../learning; bash learning.sh " + args.application)
     import os
-    os.system("cd ../learning; bash learning.sh " + args.application)
+    os.system("cd ../learning; bash learning.sh " + args.application + " " + args.size)
 
 performance_table = PerformanceTable(file_name)
 
 mapping = TimeCostMapping(cost_table=cost_table,
                           performance_table=performance_table)
 
-config = mapping.get_config(float(args.max_money), float(args.max_time))
+mapping.update_csv(args.application[2:]+'.csv', int(args.size))
 
-print config
+max_money = float(args.max_money) if args.max_money else float('inf')
+max_time = float(args.max_time) if args.max_time else float('inf')
+
+configs = mapping.get_config(max_money, max_time)
+
+print configs
 
 mapping.draw()
 
