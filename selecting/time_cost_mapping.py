@@ -13,7 +13,7 @@ class TimeCostMapping:
                 money = cost_table.table.get((cpu, memory), None)
                 performance = performance_table.table.get((cpu, memory), None)
                 if money and performance:
-                    self.mapping.append((round(performance * money, 2), performance, (cpu, memory)))
+                    self.mapping.append((performance * money, performance, (cpu, memory)))
 
         # get the pareto_frontier
         self.mapping.sort(cmp=lambda x, y: cmp(x[0], y[0]))  # sort by cost
@@ -29,7 +29,7 @@ class TimeCostMapping:
         result = []
         for a in self.pareto_frontier:
             if a[1] <= time and a[0] <= money:
-                result.append(a)
+                result.append((round(a[0],2),round(a[1],2))+a[2])
         return result
 
     def draw(self):

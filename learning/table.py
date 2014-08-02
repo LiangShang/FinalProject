@@ -69,14 +69,14 @@ class PerformanceTable:
         f = open(file_name, 'w')
         f.write("     ")
         for cpu in self.cpu_range:
-            f.write("{:10d}".format(int(cpu)))
+            f.write("{0:10d}".format(int(cpu)))
         f.write("\n")
         for memory in self.memory_range:
-            f.write("{:5s}".format(memory))
+            f.write("{0:5s}".format(memory))
             for cpu in self.cpu_range:
                 time = self.table.get((cpu, memory), None)
                 if time is not None:
-                    f.write("{:10.5f}".format(time))
+                    f.write("{0:10.5f}".format(time))
                 else:
                     f.write("{0}".format("      None"))
             f.write("\n")

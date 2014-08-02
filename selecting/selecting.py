@@ -57,7 +57,11 @@ max_time = float(args.max_time) if args.max_time else float('inf')
 
 result = mapping.get_config(max_money, max_time)
 
-print result
+for r in result:
+    print 'cost:', round(r[0], 2), \
+          'time:', round(r[1], 2), \
+          'cpu cores:', r[2], \
+          'memory:', r[3]
 
 if args.draw:
     mapping.draw()
