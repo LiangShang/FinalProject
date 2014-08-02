@@ -13,7 +13,7 @@ parser.add_argument('-t', '--time', action='store', dest='max_time',
 parser.add_argument('-m', '--money', action='store', dest="max_money",
                     help='The maximum money expected to run the application')
 
-parser.add_argument('--draw', dest="draw",
+parser.add_argument('--draw', dest="draw", action='store_true', default=False,
                     help='Draw the pareto frontier, python-matplotlib required')
 
 parser.add_argument('--size', action='store', dest="size", required=True,
@@ -49,7 +49,7 @@ performance_table = PerformanceTable(file_name)
 
 mapping = TimeCostMapping(cost_table=cost_table,
                           performance_table=performance_table)
-
+print "update file: ", args.application+'.csv'
 mapping.update_csv(args.application+'.csv', int(args.size))
 
 max_money = float(args.max_money) if args.max_money else float('inf')
