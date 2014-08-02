@@ -13,6 +13,9 @@ parser.add_argument('-t', '--time', action='store', dest='max_time',
 parser.add_argument('-m', '--money', action='store', dest="max_money",
                     help='The maximum money expected to run the application')
 
+parser.add_argument('--draw', dest="draw",
+                    help='Draw the pareto frontier, python-matplotlib required')
+
 parser.add_argument('--size', action='store', dest="size", required=True,
                     help='The size of the application')
 
@@ -29,9 +32,8 @@ configs = [(cpu, memory)
            for cpu in cost_table.cpu_range
            for memory in cost_table.memory_range]
 
-file_name = args.application
-if file_name[0:2] == "./":
-    file_name = file_name[2:]
+file_name = args.application  # args.application is 'matrix_mul'
+application = './'+file_name  # application is './matrix_mul'
 file_name = "../learning/performance of " + file_name + " " + args.size
 if not os.path.isfile(file_name):
     print "please use learning.sh in directory learning first"
@@ -41,22 +43,23 @@ if not os.path.isfile(file_name):
     #import commands
     #commands.getstatusoutput("cd ../learning; bash learning.sh " + args.application)
     import os
-    os.system("cd ../learning; bash learning.sh " + args.application + " " + args.size)
+    os.system("cd ../learning; bash learning.sh " + application + " " + args.size)
 
 performance_table = PerformanceTable(file_name)
 
 mapping = TimeCostMapping(cost_table=cost_table,
                           performance_table=performance_table)
 
-mapping.update_csv(args.application[2:]+'.csv', int(args.size))
+mapping.update_csv(args.application+'.csv', int(args.size))
 
 max_money = float(args.max_money) if args.max_money else float('inf')
 max_time = float(args.max_time) if args.max_time else float('inf')
 
-configs = mapping.get_config(max_money, max_time)
+result = mapping.get_config(max_money, max_time)
 
-print configs
+print result
 
-mapping.draw()
+if args.draw:
+    mapping.draw()
 
 
