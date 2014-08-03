@@ -15,5 +15,9 @@ Selecting Phase
 ===============
 selecting phase is to pick out the configuration, tuple of cpu numbers and memory, so that the application would run in the minimum cost of money
 1) go to the selecting folder
-2) type "python selecting.py 'matrix 1000'" to pick out the config to run the application matrix multiplier with matrices of size 1000
+2) type
+    ```bash
+    python selecting.py -t <max_time> -m <max_money> --draw -size 1000 matrix_mul
+    ```
+    to pick out the config to run the application matrix multiplier with matrices of size 1000 within the max_time and max_money
 

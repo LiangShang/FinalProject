@@ -8,13 +8,13 @@ import timeit
 if __name__ == '__main__':
 
     """parameter is like:
-    file name of matrix A
-    file name of matrix B
+    size of matrices
     number of processes used
     """
 
     number_of_cpu = int(sys.argv[-1])
+    size = sys.argv[1]
     from matrix import multimatrix, read_matrix
-    a = read_matrix(sys.argv[1])
-    b = read_matrix(sys.argv[2])
+    a = read_matrix("matrix_"+size)
+    b = read_matrix("matrix_"+size)
     p = multimatrix(a, number_of_cpu) * multimatrix(b, number_of_cpu)

@@ -11,6 +11,8 @@ if __name__ == "__main__":
 
     for line in f:
         profile = line.split(" ")
+        if len(profile) < 4:
+            continue
         cpu = profile[0]
         memory = profile[1]
         real_time_str = profile[3]
