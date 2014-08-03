@@ -60,7 +60,7 @@ class TimeCostMapping:
 
         csv_list = []
         for key, value in csv_dict.items():
-            string = key + (value,)
+            string = key + (round(float(value), 2),)
             csv_list.append(string)
 
         with open(csv_name, "wb") as csv_file:
