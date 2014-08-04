@@ -40,5 +40,5 @@ if __name__ == "__main__":
         int(cpu) - 1) + ' -w /Final ' + image + ' bash main_script'
     print bash_script
     commands.getoutput(bash_script)
-    #commands.getoutput('rm script')
+    commands.getoutput('rm application/main_script')
 
