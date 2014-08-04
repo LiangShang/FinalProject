@@ -34,12 +34,12 @@ if __name__ == "__main__":
     import commands
 
     image = 'stackbrew/hipache'
-    script = './' + args.application + ' ' + ' '.join(args.parameters) + ' > result'
-    commands.getoutput("echo " + script + ' > script')
-    bash_script = 'docker run --rm -v `pwd`/learning/:/Final -m ' + memory + ' --cpuset=0-' + str(
-        int(cpu) - 1) + ' -w /Final ' + image + ' bash script'
-
+    script = './' + args.application + ' ' + ' '.join(args.parameters)+ ' '+cpu + ' > result'
+    commands.getoutput("echo '" + script + "' > learning/main_script")
+    bash_script = 'sudo docker run --rm -v `pwd`/learning/:/Final -m ' + memory + ' --cpuset=0-' + str(
+        int(cpu) - 1) + ' -w /Final ' + image + ' bash main_script'
+    print bash_script
     commands.getoutput(bash_script)
     print "result is generate in file 'result', please check!"
-    commands.getoutput('rm script')
+    #commands.getoutput('rm script')
 

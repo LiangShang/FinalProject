@@ -18,3 +18,4 @@ if __name__ == '__main__':
     a = read_matrix("matrix_"+size)
     b = read_matrix("matrix_"+size)
     p = multimatrix(a, number_of_cpu) * multimatrix(b, number_of_cpu)
+    print p

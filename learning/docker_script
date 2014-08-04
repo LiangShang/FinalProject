@@ -1,1 +1,1 @@
-docker run -i -t --rm -v `pwd`:/Final -m 500m --cpuset=1-4 -w /Final ubuntu_python bash 
+sudo docker run --rm -v `pwd`:/Final -m 500m --cpuset=1-4 -w /Final stackbrew/hipache bash script 
