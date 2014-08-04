@@ -1,8 +1,12 @@
 #!/usr/bin/python
 
-import multiprocessing, numpy, ctypes
+import multiprocessing
+import ctypes
 import sys
-from matrix import read_matrix, print_matrix
+
+import numpy
+
+from application.matrix import read_matrix
 
 
 def lineMult(start):
