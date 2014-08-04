@@ -21,10 +21,10 @@ do
         # put process number to script
         process=$cpu
         echo calculate memory: $memory cpu: $cpu
-        echo time timeout 1m $command $matrix_size $process >script
-        #echo time $command $matrix_size $process >script
-        (docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
-        #(bash script)  2> tmp #for host running
+        #echo time timeout 1m $command $matrix_size $process >script
+        echo time $command $matrix_size $process >script
+        #(docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
+        (bash script)  2> tmp #for host running
         real_time_str=`cat tmp| head -n 2| tail -n 1`
 
         echo $cpu $memory $real_time_str >> statistics

@@ -5,65 +5,65 @@ from performance_table import PerformanceTable
 from cost_table import CostTable
 from time_cost_mapping import TimeCostMapping
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument('-t', '--time', action='store', dest='max_time',
-                    help='The maximum time expected to run the application, united by second')
+def select_config(max_money, max_time, application, size, draw=False,
+                  learning_dir='../learning/', selecting_dir='./'):
+    # Find the configuration according to the money
+    cost_table = CostTable(selecting_dir+"cost_table")
+    run_application = './'+application  # run_application is './matrix_mul'
+    file_name = learning_dir + "performance of " + application + " " + str(size)
+    changed = False
+    if not os.path.isfile(file_name):
+        print "please use learning.sh in directory learning first"
+        print "now try to run the learning module"
+        print "running the command", "cd "+learning_dir+"; bash learning.sh " + run_application + " " + str(size)
+        os.system("cd "+learning_dir+"; bash learning.sh " + run_application + " " + str(size))
+        changed = True
 
-parser.add_argument('-m', '--money', action='store', dest="max_money",
-                    help='The maximum money expected to run the application')
+    performance_table = PerformanceTable(file_name)
 
-parser.add_argument('--draw', dest="draw", action='store_true', default=False,
-                    help='Draw the pareto frontier, python-matplotlib required')
+    mapping = TimeCostMapping(cost_table=cost_table,
+                              performance_table=performance_table)
+    if changed:
+        print "update file: ", application+'.csv'
+        mapping.update_csv(selecting_dir+application+'.csv', size)
 
-parser.add_argument('--size', action='store', dest="size", required=True,
-                    help='The size of the application')
+    if draw:
+        mapping.draw()
 
-parser.add_argument('application', help='the application name')
-
-args = parser.parse_args()
-
-print args.application + args.size
+    return mapping.get_config(max_money, max_time)
 
 
-# Find the configuration according to the money
-cost_table = CostTable("cost_table")
-configs = [(cpu, memory)
-           for cpu in cost_table.cpu_range
-           for memory in cost_table.memory_range]
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
 
-file_name = args.application  # args.application is 'matrix_mul'
-application = './'+file_name  # application is './matrix_mul'
-file_name = "../learning/performance of " + file_name + " " + args.size
-if not os.path.isfile(file_name):
-    print "please use learning.sh in directory learning first"
-    print "now try to run the learning module"
-    print "running the command", "cd ../learning; bash learning.sh " + args.application + " " + args.size
+    parser.add_argument('-t', '--time', action='store', dest='max_time',
+                        help='The maximum time expected to run the application, united by second')
 
-    #import commands
-    #commands.getstatusoutput("cd ../learning; bash learning.sh " + args.application)
-    import os
-    os.system("cd ../learning; bash learning.sh " + application + " " + args.size)
+    parser.add_argument('-m', '--money', action='store', dest="max_money",
+                        help='The maximum money expected to run the application')
 
-performance_table = PerformanceTable(file_name)
+    parser.add_argument('--draw', dest="draw", action='store_true', default=False,
+                        help='Draw the pareto frontier, python-matplotlib required')
 
-mapping = TimeCostMapping(cost_table=cost_table,
-                          performance_table=performance_table)
-print "update file: ", args.application+'.csv'
-mapping.update_csv(args.application+'.csv', int(args.size))
+    parser.add_argument('--size', action='store', dest="size", required=True,
+                        help='The size of the application')
 
-max_money = float(args.max_money) if args.max_money else float('inf')
-max_time = float(args.max_time) if args.max_time else float('inf')
+    parser.add_argument('application', help='the application name')
 
-result = mapping.get_config(max_money, max_time)
+    args = parser.parse_args()
 
-for r in result:
-    print 'cost:', round(r[0], 2), \
-          'time:', round(r[1], 2), \
-          'cpu cores:', r[2], \
-          'memory:', r[3]
+    result = select_config(
+        max_money=float(args.max_money) if args.max_money else float('inf'),
+        max_time=float(args.max_time) if args.max_time else float('inf'),
+        application=args.application,  # args.application is 'matrix_mul'
+        size=int(args.size),
+        draw=args.draw)
 
-if args.draw:
-    mapping.draw()
+    for r in result:
+        print 'cost:', round(r[0], 2), \
+              'time:', round(r[1], 2), \
+              'cpu cores:', r[2], \
+              'memory:', r[3]
 
 

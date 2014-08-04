@@ -1,40 +1,45 @@
-import sys
-from learning.lxc_config import memories, cpus
-from learning.exe_command import run_command_with_docker, run_command
-from learning.exe_time import parse_time
-from learning.table import PerformanceTable
+import argparse
+from selecting.selecting import select_config
 
-__author__ = 'Sherlock'
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--time', action='store', dest='max_time',
+                        help='The maximum time expected to run the application, united by second')
+    parser.add_argument('-m', '--money', action='store', dest="max_money",
+                        help='The maximum money expected to run the application')
+    parser.add_argument('--size', action='store', dest="size", required=True,
+                        help='The size of the application')
+    parser.add_argument('-p', '--parameters', action='append', dest='parameters', default=[],
+                        help='the parameters of running the application, '
+                             'if there are more than 2 parameters. please type in the format'
+                             '-p <para1> -p <para2> ...')
+    parser.add_argument('application', help='the application name')
 
-if __name__ == '__main__':
+    args = parser.parse_args()
 
-    table = PerformanceTable()
+    configs = select_config(
+        max_money=float(args.max_money) if args.max_money else float('inf'),
+        max_time=float(args.max_time) if args.max_time else float('inf'),
+        application=args.application,
+        size=int(args.size),
+        learning_dir='learning/',
+        selecting_dir='selecting/')
 
-    if len(sys.argv) < 2:
-        print "Usage: python main.py <command>"
+    if configs is None:
+        print "no such configuration fits the requirements"
         exit()
 
-    command = sys.argv[1]
-    image = "stackbrew/hipache"
+    cpu, memory = configs[0][2], configs[0][3]
 
-    f = open("script", "w")
-    f.write("time "+command)
-    f.close()
+    import commands
 
-    for memory in memories:
-        for cpu in cpus:
-            print "begin to calculate execution time with config: "+\
-                  str(cpu)+" cpu(s) and "+str(memory)+"k memory"
-            a, b = run_command_with_docker("bash /Final/script", image, cpu, memory)
-            #a, b = run_command(" time ls")
-            if a != 0:
-                print "command '"+command+"' is wrong"
-                print b
-                exit()
-            print b
-            total_time = parse_time(b)
-            print "finish calculation, write to table"
-            table.add(time=total_time, cpu=cpu, memory=memory)
+    image = 'stackbrew/hipache'
+    script = './' + args.application + ' ' + ' '.join(args.parameters) + ' > result'
+    commands.getoutput("echo " + script + ' > script')
+    bash_script = 'docker run --rm -v `pwd`/learning/:/Final -m ' + memory + ' --cpuset=0-' + str(
+        int(cpu) - 1) + ' -w /Final ' + image + ' bash script'
 
-    table.pareto()
-    table.generate("PerformanceTable of "+command)
+    commands.getoutput(bash_script)
+    print "result is generate in file 'result', please check!"
+    commands.getoutput('rm script')
+
