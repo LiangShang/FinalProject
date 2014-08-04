@@ -6,7 +6,7 @@ memories=(10m 20m 30m 40m 75m 150m)
 cpus=(1 2 3 4)
 command=$1
 matrix_size=$2
-image="ubuntu_python"
+image="stackbrew/hipache"
 echo "Creating random matrix for test"
 cd ../application;python matrix.py $matrix_size
 echo "Matrix generated"
@@ -22,13 +22,12 @@ do
         # put process number to script
         process=$cpu
         echo calculate memory: $memory cpu: $cpu
-        #echo time timeout 1m $command $matrix_size $process >../application/script
-        echo time $command $matrix_size $process > ../application/script
+        echo time timeout 1m $command $matrix_size $process >../application/script
+        #echo time $command $matrix_size $process > ../application/script
 
         cd ../application
-        #(docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
-
-        (bash script)  2> tmp #for host running
+        (sudo docker run -i -v `pwd`:/Final --rm -m $memory --cpuset=0-$(($cpu-1)) -w /Final  $image bash script) 2> tmp
+        #(bash script)  2> tmp #for host running
 
         real_time_str=`cat tmp| head -n 2| tail -n 1`
         cd ../learning
