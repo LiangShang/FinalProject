@@ -1,6 +1,6 @@
 __author__ = 'Sherlock'
 
-
+MAX_TIME = 3
 class PerformanceTable:
 
     table = {}
@@ -19,17 +19,21 @@ class PerformanceTable:
             self.memory_range.append(memory)
 
         key = (cpu, memory)
-        self.table[key] = time
-        app_time = self.times.get(key, None)
-        if app_time:
-            self.times[key] = int(app_time) + 1
+        previous_times = self.table.get(key, None)
+        if previous_times is None:  # first time the key appears
+            self.table[key] = [time]
         else:
-            self.times[key] = 1
+            if len(previous_times) < MAX_TIME:
+                self.table[key].append(time)
+            else:
+                self.table[key].sort()
+                if time > self.table[key][0]:
+                    self.table[key][0] = time
 
     def average(self):
         for key in self.table.keys():
-            app_time = self.times[key]
-            self.table[key] = self.table[key]/app_time
+            print self.table[key]
+            self.table[key] = sum(self.table[key]) / len(self.table[key])
 
     def pareto(self):
         """TODO: remove the records from self.table which costs the same time but more resources

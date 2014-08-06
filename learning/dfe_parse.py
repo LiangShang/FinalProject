@@ -11,17 +11,14 @@ if __name__ == "__main__":
 
     for line in f:
         profile = line.split(" ")
-        if len(profile) > 5:
+        if len(profile) != 5:
             continue
         cpu = profile[0]
         memory = profile[1]
         real_time_str = profile[4]
         time = float(real_time_str)/1000
-        previous_time = performance_table.get(cpu, memory)
-        if previous_time:
-            performance_table.add(previous_time+time, cpu, memory)
-        else:
-            performance_table.add(time, cpu, memory)
+        performance_table.add(time, cpu, memory)
+
     performance_table.average()
     performance_table.pareto()
     command_names = sys.argv
