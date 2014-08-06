@@ -1,0 +1,1 @@
+docker run --rm -v /opt/maxeler:/opt/maxeler -v /dev/infiniband/:/dev/infiniband -v /mnt/data/cccad3/jgfc:/mnt/data/cccad3/jgfc --cpuset=0-0 -m 10m --privileged=true -w /mnt/data/cccad3/jgfc/liang/AdPredictorDFE-MAIA/build/ ubuntu_ib /bin/bash -c 'source /setmaia;./Adp_dfe "-n" 1 100'
