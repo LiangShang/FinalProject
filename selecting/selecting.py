@@ -8,7 +8,12 @@ from time_cost_mapping import TimeCostMapping
 
 def select_config(max_money, max_time, application, size, draw=False,
                   learning_dir='../learning/', selecting_dir='./'):
-    # Find the configuration according to the money
+    #First should find the config from the existing csv file. This is TODO
+    # 1) check whether the csv exists
+    # 2) check csv to get the same size and less time and money
+    # 3) if find more than one, the results should be sorted by price
+
+
     cost_table = CostTable(selecting_dir+"cost_table")
     run_application = './'+application  # run_application is './matrix_mul'
     file_name = learning_dir + "performance of " + application + " " + str(size)
