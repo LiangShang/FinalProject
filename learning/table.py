@@ -32,7 +32,6 @@ class PerformanceTable:
 
     def average(self):
         for key in self.table.keys():
-            print self.table[key]
             self.table[key] = sum(self.table[key]) / len(self.table[key])
 
     def pareto(self):

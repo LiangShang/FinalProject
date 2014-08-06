@@ -12,7 +12,7 @@ cd ../application;python matrix.py $matrix_size
 echo "Matrix generated"
 cd ../learning/
 
-for i in {1};
+for i in {1..10};
 do
 
     for memory in "${memories[@]}";
@@ -45,6 +45,6 @@ python parse.py "$command $matrix_size"
 
 rm -f ../application/tmp
 rm -f ../application/script
-rm -f statistics
+#rm -f statistics
 
 
