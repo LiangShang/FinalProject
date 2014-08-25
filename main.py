@@ -28,12 +28,12 @@ if __name__ == "__main__":
     if configs is None:
         print "no such configuration fits the requirements"
         exit()
-
+    print configs
     cpu, memory = configs[0][2], configs[0][3]
 
     import commands
 
-    image = 'stackbrew/hipache'
+    image = 'ubuntu_python'
     script = './' + args.application + ' ' + ' '.join(args.parameters) + ' '+cpu
     commands.getoutput("echo '" + script + "' > application/main_script")
     bash_script = 'sudo docker run --rm -v `pwd`/application/:/Final -m ' + memory + ' --cpuset=0-' + str(

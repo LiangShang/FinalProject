@@ -2,14 +2,14 @@
 
 declare -a memories
 declare -a cpus
-memories=(1g 2g 4g)
+memories=(4g 8g 16g)
 #memories=(30m 40m 75m 150m 300m)
 dfes=(1 2 3 4)
 command=$1  # ./Adp_dfe
 problem_size=$2  #1000
 image="ubuntu_ib"
 
-for i in {1..10};
+for i in {1..3};
 do
 
     for memory in "${memories[@]}";
@@ -37,7 +37,7 @@ echo "learning is finished"
 python dfe_parse.py "$command $problem_size"
 
 rm tmp
-#rm -f script
-#rm -f statistics
+rm -f script
+rm -f statistics
 
 

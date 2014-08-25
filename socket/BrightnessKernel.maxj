@@ -1,0 +1,49 @@
+package brightness;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.Stream.OffsetExpr;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEType;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEVector;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEVectorType;
+
+public class BrightnessKernel extends Kernel {
+	final static int PARALLELISM_DEGREE = 2;
+
+	final DFEType TYPE_ELEMENT = dfeInt(32);
+	final DFEVectorType<DFEVar> TYPE_VECTOR = new DFEVectorType<DFEVar>(TYPE_ELEMENT,
+			PARALLELISM_DEGREE);
+
+	protected BrightnessKernel(KernelParameters parameters) {
+		super(parameters);
+
+		DFEVector<DFEVar> x = io.input("x", TYPE_VECTOR);
+		DFEVector<DFEVar> sums = TYPE_VECTOR.newInstance(this);
+
+		DFEVar previous = x.getElement(0);
+		sums.connect(0, previous);
+		for (int i = 1; i < PARALLELISM_DEGREE; i++) {
+			DFEVar sum = previous + x.getElement(i);
+			sums.connect(i, sum);
+			previous = sum;
+		}
+
+		OffsetExpr loopLength = stream.makeOffsetAutoLoop("loopLength");
+		DFEVar cumulativeSum = TYPE_ELEMENT.newInstance(this);
+		DFEVar nextCumulativeSum = cumulativeSum + sums.getElement(PARALLELISM_DEGREE - 1);
+
+		cumulativeSum <== stream.offset(nextCumulativeSum, -loopLength);
+
+		DFEVector<DFEVar> y = TYPE_VECTOR.newInstance(this);
+		for (int i = 0; i < PARALLELISM_DEGREE - 1; i++) {
+			DFEVar result = cumulativeSum + sums.getElement(i);
+			y.connect(i, result);
+		}
+		y.connect(PARALLELISM_DEGREE - 1, nextCumulativeSum);
+
+		io.output("y", y, TYPE_VECTOR);
+	}
+
+}
+

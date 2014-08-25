@@ -34,6 +34,7 @@ def mandelbrotCalcSet(h, w, proc, max_iteration = 1000):
     return mandelImg
 
 if __name__=='__main__':
+    size = int(sys.argv[2])
     mandelImg = mandelbrotCalcSet(400, 400, int(sys.argv[1]), 1000)
     #plt.imshow(mandelImg)
     #plt.savefig('mandelimg.jpg')

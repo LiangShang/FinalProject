@@ -20,15 +20,14 @@ class CostTable:
 
         memories = []
         for line in f:
-            line_strings = line.split(" ")
+            line_strings = line.strip("\n").split(" ")
             memory = line_strings.pop(0)
             memories.append(int(memory))
             i = 0
             for string in line_strings:
                 if string != "":
-                    string = string.strip("\n")
                     if string != 'None':
-
+                        
                         self.add(float(string), cpus[i], memory)
                     i += 1
 

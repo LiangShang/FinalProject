@@ -1,5 +1,14 @@
-This is a tool to evaluate the performance of an application running inside a LXC container, 
-and then compute the configuration to launch the container according to the given money and execution time.
+Overview
+=============
+This is a tool to bring elasticity to both the batch application and the online applicaiton.
+
+
+
+
+Batch Application
+===================
+This tool evaluates the performance of an application running inside a LXC container, 
+and then computes the configuration to launch the container according to the given money and execution time.
 So there are 2 phases in the tool, the learning and the selecting.
 
 
@@ -7,7 +16,7 @@ Learning Phase
 =============
 learning phase is to let the tool to learn the performance of a given application in different containers.
 1) go into the learning folder
-2) type './learning.sh matrix_mul 1000' for example to let the tool learn the performance of matrix multiplication with matrices of size 1000
+2) type './learning.sh ./matrix_mul 1000' for example to let the tool learn the performance of matrix multiplication with matrices of size 1000. For the specified Adp_dfe and Adp_cpu that output the time by themselves, run ./cpu_learning.sh ./Adp_cpu xxx and ./dfe_learning.sh ./Adp_dfe xxx respectively.
 
 
 
@@ -19,5 +28,18 @@ selecting phase is to pick out the configuration, tuple of cpu numbers and memor
     ```bash
     python selecting.py -t <max_time> -m <max_money> --draw -size 1000 matrix_mul
     ```
-    to pick out the config to run the application matrix multiplier with matrices of size 1000 within the max_time and max_money
+    to pick out the config to run the application matrix multiplier with matrices of size 1000 within the max_time and max_money 
+Please make sure the matrix_mul is in the application folder and can be called by ./matrix_mul 
+
+
+
+
+
+
+Online Application
+===================
+For the online application, while the online application is running, change the application name in file monitor.py and then type python monitor.py to start the monitor. Then from the monitor you can see the monitor's configurations are being changed.
+
+
+
 

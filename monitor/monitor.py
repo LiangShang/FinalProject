@@ -92,7 +92,7 @@ def cpu_handler(cpu_load):
     pass
 
 if __name__ == '__main__':
-    app_name = 'matrix_mul'
+    app_name = 'mandelbrot_set'
     cur_config = {'cpu': 1, 'memory': 1073741824}
     cost_table = CostTable('cost_table')
     # start the docker running application continuously to emulate online application

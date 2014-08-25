@@ -17,6 +17,7 @@ class TimeCostMapping:
 
         # get the pareto_frontier
         self.mapping.sort(cmp=lambda x, y: cmp(x[0], y[0]))  # sort by cost
+        #print self.mapping
         min_time = float("inf")
         for a in self.mapping:
             if a[1] < min_time:
@@ -56,7 +57,7 @@ class TimeCostMapping:
         for cpu, memory, matrix_size, time, cost in reader:
             csv_dict[cpu, memory, matrix_size, time] = cost
         for record in self.mapping:
-            csv_dict[record[2][0], record[2][0], size, record[1]] = record[0]
+            csv_dict[record[2][0], record[2][1], size, record[1]] = record[0]
 
         csv_list = []
         for key, value in csv_dict.items():

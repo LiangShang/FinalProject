@@ -1,2 +1,2 @@
-docker run --rm -v /opt/maxeler:/opt/maxeler -v /dev/infiniband/:/dev/infiniband -v /mnt/data/cccad3/jgfc:/mnt/data/cccad3/jgfc --cpuset=1-2 -m 30m --privileged=true -w /mnt/data/cccad3/jgfc/liang/AdPredictorDFE-MAIA/build/  ubuntu_ib  /bin/bash #-c 'source /setmaia;./Adp_dfe 100'
+docker run --rm -i -t -v /opt/maxeler:/opt/maxeler -v /dev/infiniband/:/dev/infiniband -v /mnt/data/cccad3/jgfc:/mnt/data/cccad3/jgfc --cpuset=0 --privileged=true -w /mnt/data/cccad3/jgfc/liang/AdPredictorDFE-MAIA/build/ -v /mnt/data/cccad1/ls1312/:/data  ubuntu_ib  /bin/bash # -c 'source /setmaia;./Adp_cpu -n 4 1e8;./Adp_cpu -n 4 1e8'
 

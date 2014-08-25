@@ -32,13 +32,15 @@ def get_cost_and_throughput(file_name, memory):
 
 if __name__ == '__main__':
 
-    file_name_1024 = '../application/throughput_1024MB'
-    file_name_2048 = '../application/throughput_2048MB'
-    file_name_3096 = '../application/throughput_3072MB'
+    file_name_1024 = '../application/throughput_1024MB_mand'
+    file_name_2048 = '../application/throughput_2048MB_mand'
+    file_name_3072 = '../application/throughput_3072MB_mand'
+    file_name_4096 = '../application/throughput_4096MB_mand'
     cost_table = CostTable('cost_table')
     r_1024 = get_cost_and_throughput(file_name_1024, str(1024*1024*1024))
     r_2048 = get_cost_and_throughput(file_name_2048, str(2*1024*1024*1024))
-    r_3072 = get_cost_and_throughput(file_name_3072, str(3*1024*1024*1024))
+    r_3072 = get_cost_and_throughput(file_name_3072, str(3*1024*1024*1024))  
+    r_4096 = get_cost_and_throughput(file_name_4096, str(4*1024*1024*1024))
     results = []
     f = lambda x, y : x if x[0] <= y[0] else y
     for i in range(len(r_1024)):
